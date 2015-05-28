@@ -1,7 +1,8 @@
 <?php
-namespace Tonis\PackageManager;
+namespace Tonis\PackageManager\Hook;
 
 use Tonis\Hookline\HookInterface;
+use Tonis\PackageManager\PackageManager;
 
 interface PackageHookInterface extends HookInterface
 {

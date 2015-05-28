@@ -1,9 +1,11 @@
 <?php
-namespace Tonis\PackageManager;
+namespace Tonis\PackageManager\Hook;
 
+use Tonis\PackageManager\Exception\PackageLoadFailedException;
 use Tonis\PackageManager\Feature\ConfigProviderInterface;
+use Tonis\PackageManager\PackageManager;
 
-class DefaultPackageHook implements PackageHookInterface
+class DefaultPackageHook extends AbstractPackageHook
 {
     /**
      * {@inheritDoc}
@@ -25,7 +27,7 @@ class DefaultPackageHook implements PackageHookInterface
             }
 
             if (null === $package) {
-                throw new Exception\PackageLoadFailedException($name);
+                throw new PackageLoadFailedException($name);
             }
 
             $packages[$name] = $package;
@@ -56,12 +58,5 @@ class DefaultPackageHook implements PackageHookInterface
         }
 
         return $config;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function afterLoad(PackageManager $packageManager, array $mergedConfig)
-    {
     }
 }

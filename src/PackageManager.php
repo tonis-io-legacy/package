@@ -2,10 +2,11 @@
 
 namespace Tonis\PackageManager;
 
-use Tonis\Hookline\Exception\InvalidHookException;
-use Tonis\Hookline\HookInterface;
+use Tonis\Hookline\HookContainer;
 use Tonis\Hookline\HooksAwareInterface;
 use Tonis\Hookline\HooksAwareTrait;
+use Tonis\PackageManager\Hook\DefaultPackageHook;
+use Tonis\PackageManager\Hook\PackageHookInterface;
 
 final class PackageManager implements HooksAwareInterface, ManagerInterface
 {
@@ -36,6 +37,7 @@ final class PackageManager implements HooksAwareInterface, ManagerInterface
      */
     public function __construct(array $config = [])
     {
+        $this->hooks = new HookContainer(PackageHookInterface::class);
         $this->packages = new \ArrayObject();
 
         $this->setConfigDefaults($config);
@@ -210,6 +212,9 @@ final class PackageManager implements HooksAwareInterface, ManagerInterface
         return $this->config;
     }
 
+    /**
+     * @param array $config
+     */
     private function setConfigDefaults(array $config)
     {
         $this->config = array_merge($this->configDefaults, $config);
@@ -222,9 +227,6 @@ final class PackageManager implements HooksAwareInterface, ManagerInterface
     private function installDefaultHooks()
     {
         foreach ($this->config['hooks'] as $hook) {
-            if (!$hook instanceof HookInterface) {
-                throw new InvalidHookException();
-            }
             $this->hooks()->add($hook);
         }
     }
