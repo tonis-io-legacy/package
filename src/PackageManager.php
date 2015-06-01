@@ -2,7 +2,7 @@
 
 namespace Tonis\PackageManager;
 
-use Tonis\Hookline\HookContainer;
+use Tonis\Hookline\Container as HookContainer;
 use Tonis\Hookline\HooksAwareInterface;
 use Tonis\Hookline\HooksAwareTrait;
 use Tonis\PackageManager\Hook\DefaultPackageHook;
