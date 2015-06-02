@@ -9,19 +9,19 @@
     "description": "Spiffy\\Package is a light-weight, HHVM compatible, and dependency lite package manager.",
     "license": "BSD-3-Clause",
     "require": {
-        "php": ">=5.4",
+        "php": ">=5.5",
         "tonis/hookline": "dev-master"
     },
     "require-dev": {
         "mockery/mockery": "~0.9",
         "phpunit/phpunit": "~4.0",
+        "scrutinizer/ocular": "^1.1.1",
         "squizlabs/php_codesniffer": "~1.0"
     },
     "autoload": {
         "psr-4": {
             "Tonis\\PackageManager\\": [
-                "src/",
-                "test/"
+                "src/"
             ]
         }
     },

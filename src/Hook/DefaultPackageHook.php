@@ -18,7 +18,7 @@ class DefaultPackageHook extends AbstractPackageHook
 
             if (is_string($package)) {
                 $fcqn = $package;
-            } else if (empty($package)) {
+            } elseif (empty($package)) {
                 $fcqn = $name . '\\Package';
             }
 

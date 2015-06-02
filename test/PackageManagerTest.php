@@ -77,11 +77,11 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
     public function testAddingPackageUsingFqcn()
     {
         $pm = $this->pm;
-        $pm->add('fcqn', 'Spiffy\\Package\\TestAsset\\FQCN\\Module');
+        $pm->add('fcqn', 'Tonis\\PackageManager\\TestAsset\\FQCN\\Module');
         $pm->load();
 
         $package = $pm->getPackage('fcqn');
-        $this->assertInstanceOf('Spiffy\\Package\\TestAsset\\FQCN\\Module', $package);
+        $this->assertInstanceOf('Tonis\\PackageManager\\TestAsset\\FQCN\\Module', $package);
     }
 
     /**
@@ -131,7 +131,7 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
         $pm = $this->pm;
         $pm->load();
         $pm->add('foo');
-   }
+    }
 
     /**
      * @covers ::add
@@ -225,7 +225,10 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
         $method->setAccessible(true);
         $result = $method->invokeArgs($pm, [$a, $b]);
 
-        $this->assertSame(['one' => ['foo', 'bar', 'baz' => 'booze'], 'stringkey' => 'override', 'two', 'three'], $result);
+        $this->assertSame(
+            ['one' => ['foo', 'bar', 'baz' => 'booze'], 'stringkey' => 'override', 'two', 'three'],
+            $result
+        );
     }
 
     protected function setUp()
