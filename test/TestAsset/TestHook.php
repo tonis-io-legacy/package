@@ -1,7 +1,7 @@
 <?php
 namespace Tonis\PackageManager\TestAsset;
 
-use Tonis\PackageManager\PackageHookInterface;
+use Tonis\PackageManager\Hook\PackageHookInterface;
 use Tonis\PackageManager\PackageManager;
 
 class TestHook implements PackageHookInterface

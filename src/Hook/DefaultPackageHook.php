@@ -1,4 +1,5 @@
 <?php
+
 namespace Tonis\PackageManager\Hook;
 
 use Tonis\PackageManager\Exception\PackageLoadFailedException;
@@ -18,7 +19,7 @@ class DefaultPackageHook extends AbstractPackageHook
 
             if (is_string($package)) {
                 $fcqn = $package;
-            } else if (empty($package)) {
+            } elseif (empty($package)) {
                 $fcqn = $name . '\\Package';
             }
 

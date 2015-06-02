@@ -15,6 +15,20 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
      */
     protected $pm;
 
+    protected function setUp()
+    {
+        $pm = $this->pm = new PackageManager();
+        $pm->add('Tonis\PackageManager\TestAsset\Application');
+        $pm->add('Tonis\PackageManager\TestAsset\Override');
+    }
+
+    protected function tearDown()
+    {
+        if (file_exists(sys_get_temp_dir() . '/package.merged.config.php')) {
+            unlink(sys_get_temp_dir() . '/package.merged.config.php');
+        }
+    }
+
     /**
      * @covers ::__construct
      */
@@ -77,11 +91,11 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
     public function testAddingPackageUsingFqcn()
     {
         $pm = $this->pm;
-        $pm->add('fcqn', 'Spiffy\\Package\\TestAsset\\FQCN\\Module');
+        $pm->add('fcqn', 'Tonis\\PackageManager\\TestAsset\\FQCN\\Module');
         $pm->load();
 
         $package = $pm->getPackage('fcqn');
-        $this->assertInstanceOf('Spiffy\\Package\\TestAsset\\FQCN\\Module', $package);
+        $this->assertInstanceOf('Tonis\\PackageManager\\TestAsset\\FQCN\\Module', $package);
     }
 
     /**
@@ -131,7 +145,7 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
         $pm = $this->pm;
         $pm->load();
         $pm->add('foo');
-   }
+    }
 
     /**
      * @covers ::add
@@ -225,20 +239,32 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
         $method->setAccessible(true);
         $result = $method->invokeArgs($pm, [$a, $b]);
 
-        $this->assertSame(['one' => ['foo', 'bar', 'baz' => 'booze'], 'stringkey' => 'override', 'two', 'three'], $result);
+        $this->assertSame(
+            ['one' => ['foo', 'bar', 'baz' => 'booze'], 'stringkey' => 'override', 'two', 'three'],
+            $result
+        );
     }
 
-    protected function setUp()
+    /**
+     * @covers ::getConfig
+     * @covers ::setConfigDefaults
+     * @covers ::installDefaultHooks
+     */
+    public function testConfigAndHookSetupIsSuccessfulAndConfigRetrievedAsExpected()
     {
-        $pm = $this->pm = new PackageManager();
-        $pm->add('Tonis\PackageManager\TestAsset\Application');
-        $pm->add('Tonis\PackageManager\TestAsset\Override');
-    }
-    
-    protected function tearDown()
-    {
-        if (file_exists(sys_get_temp_dir() . '/package.merged.config.php')) {
-            unlink(sys_get_temp_dir() . '/package.merged.config.php');
-        }
+        $config = [
+            'foo' => 'bar',
+        ];
+
+        $pm = new PackageManager($config);
+
+        $result = $pm->getConfig();
+
+        $this->assertArrayHasKey('foo', $result);
+        $this->assertEquals('bar', $result['foo']);
+
+        $hooks = $pm->hooks();
+
+        $this->assertInstanceOf('\Tonis\Hookline\Container', $hooks);
     }
 }
