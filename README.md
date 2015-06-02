@@ -1,6 +1,6 @@
 # Tonis\PackageManager
 
-[![Build Status](https://travis-ci.org/tonis-io/package-manager.svg)](https://travis-ci.org/tonis-io/package-manager)
+[![Build Status](https://scrutinizer-ci.com/g/tonis-io/package-manager/badges/build.png?b=master)](https://scrutinizer-ci.com/g/tonis-io/package-manager/build-status/master)
 [![Code Coverage](https://scrutinizer-ci.com/g/tonis-io/package-manager/badges/coverage.png?s=e3d80c9767c0d5c9cc049e52a4c12b0e0bb29f1d)](https://scrutinizer-ci.com/g/tonis-io/package-manager/)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/tonis-io/package-manager/badges/quality-score.png?s=e454ad99c82766505cdc8097ec159b56ae9bba20)](https://scrutinizer-ci.com/g/tonis-io/package-manager/)
 
