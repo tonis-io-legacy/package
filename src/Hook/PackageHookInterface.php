@@ -1,4 +1,5 @@
 <?php
+
 namespace Tonis\PackageManager\Hook;
 
 use Tonis\Hookline\HookInterface;
