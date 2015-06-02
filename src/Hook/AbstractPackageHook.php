@@ -2,28 +2,28 @@
 
 namespace Tonis\Package\Hook;
 
-use Tonis\Package\Package;
+use Tonis\Package\Manager;
 
 abstract class AbstractPackageHook implements PackageHookInterface
 {
     /**
      * {@inheritDoc}
      */
-    public function onLoad(Package $Package)
+    public function onLoad(Manager $manager)
     {
     }
 
     /**
      * {@inheritDoc}
      */
-    public function onMerge(Package $Package)
+    public function onMerge(Manager $manager)
     {
     }
 
     /**
      * {@inheritDoc}
      */
-    public function afterLoad(Package $Package, array $mergedConfig)
+    public function afterLoad(Manager $manager, array $mergedConfig)
     {
     }
 }

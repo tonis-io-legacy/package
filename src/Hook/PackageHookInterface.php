@@ -3,26 +3,26 @@
 namespace Tonis\Package\Hook;
 
 use Tonis\Hookline\HookInterface;
-use Tonis\Package\Package;
+use Tonis\Package\Manager;
 
 interface PackageHookInterface extends HookInterface
 {
     /**
-     * @param Package $Package
+     * @param Manager $manager
      * @return void
      */
-    public function onLoad(Package $Package);
+    public function onLoad(Manager $manager);
 
     /**
-     * @param Package $Package
+     * @param Manager $manager
      * @return void
      */
-    public function onMerge(Package $Package);
+    public function onMerge(Manager $manager);
 
     /**
-     * @param Package $Package
+     * @param Manager $manager
      * @param array $mergedConfig
      * @return void
      */
-    public function afterLoad(Package $Package, array $mergedConfig);
+    public function afterLoad(Manager $manager, array $mergedConfig);
 }
