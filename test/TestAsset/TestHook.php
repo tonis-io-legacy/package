@@ -1,25 +1,25 @@
 <?php
-namespace Tonis\PackageManager\TestAsset;
+namespace Tonis\Package\TestAsset;
 
-use Tonis\PackageManager\Hook\PackageHookInterface;
-use Tonis\PackageManager\PackageManager;
+use Tonis\Package\Hook\PackageHookInterface;
+use Tonis\Package\Package;
 
 class TestHook implements PackageHookInterface
 {
     public $onLoad = false;
     public $mergedConfig = [];
 
-    public function onLoad(PackageManager $packageManager)
+    public function onLoad(Package $Package)
     {
         $this->onLoad = true;
     }
 
-    public function afterLoad(PackageManager $packageManager, array $mergedConfig)
+    public function afterLoad(Package $Package, array $mergedConfig)
     {
         $this->mergedConfig = $mergedConfig;
     }
 
-    public function onMerge(PackageManager $packageManager)
+    public function onMerge(Package $Package)
     {
         return ['foo' => 'bar'];
     }

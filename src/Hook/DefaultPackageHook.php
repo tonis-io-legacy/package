@@ -1,19 +1,19 @@
 <?php
 
-namespace Tonis\PackageManager\Hook;
+namespace Tonis\Package\Hook;
 
-use Tonis\PackageManager\Exception\PackageLoadFailedException;
-use Tonis\PackageManager\Feature\ConfigProviderInterface;
-use Tonis\PackageManager\PackageManager;
+use Tonis\Package\Exception\PackageLoadFailedException;
+use Tonis\Package\Feature\ConfigProviderInterface;
+use Tonis\Package\Package;
 
 class DefaultPackageHook extends AbstractPackageHook
 {
     /**
      * {@inheritDoc}
      */
-    public function onLoad(PackageManager $packageManager)
+    public function onLoad(Package $Package)
     {
-        $packages = $packageManager->getPackages();
+        $packages = $Package->getPackages();
         foreach ($packages as $name => $package) {
             $fcqn = null;
 
@@ -38,24 +38,24 @@ class DefaultPackageHook extends AbstractPackageHook
     /**
      * {@inheritDoc}
      */
-    public function onMerge(PackageManager $packageManager)
+    public function onMerge(Package $Package)
     {
         $config = [];
 
-        foreach ($packageManager->getPackages() as $package) {
+        foreach ($Package->getPackages() as $package) {
             if ($package instanceof ConfigProviderInterface) {
-                $config = $packageManager->merge($config, $package->getConfig());
+                $config = $Package->merge($config, $package->getConfig());
             }
         }
 
-        $pmConfig = $packageManager->getConfig();
+        $pmConfig = $Package->getConfig();
         if (null === $pmConfig['override_pattern']) {
             return $config;
         }
 
         $overrideFiles = glob($pmConfig['override_pattern'], $pmConfig['override_flags']);
         foreach ($overrideFiles as $file) {
-            $config = $packageManager->merge($config, include $file);
+            $config = $Package->merge($config, include $file);
         }
 
         return $config;

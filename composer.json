@@ -1,5 +1,5 @@
 {
-    "name": "tonis/package-manager",
+    "name": "tonis/package",
     "authors": [
         {
             "name": "Kyle Spraggs",
@@ -20,14 +20,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Tonis\\PackageManager\\": [
+            "Tonis\\Package\\": [
                 "src/"
             ]
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tonis\\PackageManager\\": [
+            "Tonis\\Package\\": [
                 "test/"
             ]
         }

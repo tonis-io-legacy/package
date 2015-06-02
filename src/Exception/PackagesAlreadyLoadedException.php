@@ -1,6 +1,6 @@
 <?php
 
-namespace Tonis\PackageManager\Exception;
+namespace Tonis\Package\Exception;
 
 class PackagesAlreadyLoadedException extends \RuntimeException
 {

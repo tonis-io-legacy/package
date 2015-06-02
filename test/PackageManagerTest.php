@@ -1,25 +1,25 @@
 <?php
 
-namespace Tonis\PackageManager;
+namespace Tonis\Package;
 
 use Mockery as m;
-use Tonis\PackageManager\TestAsset\TestHook;
+use Tonis\Package\TestAsset\TestHook;
 
 /**
- * @coversDefaultClass \Tonis\PackageManager\PackageManager
+ * @coversDefaultClass \Tonis\Package\Package
  */
-class PackageManagerTest extends \PHPUnit_Framework_TestCase
+class PackageTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PackageManager
+     * @var Package
      */
     protected $pm;
 
     protected function setUp()
     {
-        $pm = $this->pm = new PackageManager();
-        $pm->add('Tonis\PackageManager\TestAsset\Application');
-        $pm->add('Tonis\PackageManager\TestAsset\Override');
+        $pm = $this->pm = new Package();
+        $pm->add('Tonis\Package\TestAsset\Application');
+        $pm->add('Tonis\Package\TestAsset\Override');
     }
 
     protected function tearDown()
@@ -34,7 +34,7 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testPackagesIsInitialized()
     {
-        $pm = new PackageManager();
+        $pm = new Package();
         $this->assertInstanceOf('ArrayObject', $pm->getPackages());
     }
 
@@ -44,25 +44,25 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
     public function testGetPath()
     {
         $pm = $this->pm;
-        $pm->add('Tonis\PackageManager\TestAsset\Path');
+        $pm->add('Tonis\Package\TestAsset\Path');
         $pm->load();
 
         // Default path is up one dir from location
         $this->assertSame(
             realpath(__DIR__ . '/TestAsset'),
-            $pm->getPath('Tonis\PackageManager\TestAsset\Application')
+            $pm->getPath('Tonis\Package\TestAsset\Application')
         );
 
         // Implemeting PathProvider
         $this->assertSame(
             realpath(__DIR__ . '/TestAsset/Path'),
-            $pm->getPath('Tonis\PackageManager\TestAsset\Path')
+            $pm->getPath('Tonis\Package\TestAsset\Path')
         );
 
         // Reuses cache
         $this->assertSame(
             realpath(__DIR__ . '/TestAsset/Path'),
-            $pm->getPath('Tonis\PackageManager\TestAsset\Path')
+            $pm->getPath('Tonis\Package\TestAsset\Path')
         );
     }
 
@@ -71,7 +71,7 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMergedConfigIsInitialized()
     {
-        $pm = new PackageManager();
+        $pm = new Package();
         $this->assertInternalType('array', $pm->getMergedConfig());
     }
 
@@ -91,17 +91,17 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
     public function testAddingPackageUsingFqcn()
     {
         $pm = $this->pm;
-        $pm->add('fcqn', 'Tonis\\PackageManager\\TestAsset\\FQCN\\Module');
+        $pm->add('fcqn', 'Tonis\\Package\\TestAsset\\FQCN\\Module');
         $pm->load();
 
         $package = $pm->getPackage('fcqn');
-        $this->assertInstanceOf('Tonis\\PackageManager\\TestAsset\\FQCN\\Module', $package);
+        $this->assertInstanceOf('Tonis\\Package\\TestAsset\\FQCN\\Module', $package);
     }
 
     /**
      * @covers ::getPackage
-     * @covers \Tonis\PackageManager\Exception\PackageDoesNotExistException::__construct
-     * @expectedException \Tonis\PackageManager\Exception\PackageDoesNotExistException
+     * @covers \Tonis\Package\Exception\PackageDoesNotExistException::__construct
+     * @expectedException \Tonis\Package\Exception\PackageDoesNotExistException
      * @expectedExceptionMessage Package with name "foo" does not exist
      */
     public function testGetPackageThrowsExceptionForMissingPackage()
@@ -112,14 +112,14 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers ::getPackage
-     * @covers \Tonis\PackageManager\Exception\PackagesNotLoadedException::__construct
-     * @expectedException \Tonis\PackageManager\Exception\PackagesNotLoadedException
+     * @covers \Tonis\Package\Exception\PackagesNotLoadedException::__construct
+     * @expectedException \Tonis\Package\Exception\PackagesNotLoadedException
      * @expectedExceptionMessage Packages have not been loaded
      */
     public function testGetPackageThrowsExceptionIfPackagesNotLoaded()
     {
         $pm = $this->pm;
-        $pm->getPackage('Tonis\PackageManager\TestAsset\Application');
+        $pm->getPackage('Tonis\Package\TestAsset\Application');
     }
 
     /**
@@ -130,14 +130,14 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
         $pm = $this->pm;
         $pm->load();
 
-        $package = $pm->getPackage('Tonis\PackageManager\TestAsset\Application');
-        $this->assertInstanceOf('Tonis\PackageManager\TestAsset\Application\Package', $package);
+        $package = $pm->getPackage('Tonis\Package\TestAsset\Application');
+        $this->assertInstanceOf('Tonis\Package\TestAsset\Application\Package', $package);
     }
 
     /**
      * @covers ::add
-     * @covers \Tonis\PackageManager\Exception\PackagesAlreadyLoadedException::__construct
-     * @expectedException \Tonis\PackageManager\Exception\PackagesAlreadyLoadedException
+     * @covers \Tonis\Package\Exception\PackagesAlreadyLoadedException::__construct
+     * @expectedException \Tonis\Package\Exception\PackagesAlreadyLoadedException
      * @expectedExceptionMessage Packages can not be added after loading is complete
      */
     public function testAddThrowsExceptionWhenAlreadyLoaded()
@@ -149,14 +149,14 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers ::add
-     * @covers \Tonis\PackageManager\Exception\PackageExistsException::__construct
-     * @expectedException \Tonis\PackageManager\Exception\PackageExistsException
-     * @expectedExceptionMessage Package with name "Tonis\PackageManager\TestAsset\Application" already exists
+     * @covers \Tonis\Package\Exception\PackageExistsException::__construct
+     * @expectedException \Tonis\Package\Exception\PackageExistsException
+     * @expectedExceptionMessage Package with name "Tonis\Package\TestAsset\Application" already exists
      */
     public function testAddThrowsExceptionWhenPackageExists()
     {
         $pm = $this->pm;
-        $pm->add('Tonis\PackageManager\TestAsset\Application');
+        $pm->add('Tonis\Package\TestAsset\Application');
     }
 
     /**
@@ -166,14 +166,14 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadCachedFile()
     {
-        $pm = new PackageManager();
+        $pm = new Package();
         $pm->load();
         
         $this->assertFileNotExists(sys_get_temp_dir() . '/package.merged.config.php');
         
         $tmp = sys_get_temp_dir();
 
-        $pm = new PackageManager(['cache_dir' => $tmp]);
+        $pm = new Package(['cache_dir' => $tmp]);
         $pm->load();
 
         $file = sys_get_temp_dir() . '/package.merged.config.php';
@@ -183,7 +183,7 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($result, $pm->getMergedConfig());
         
-        $pm = new PackageManager(['cache_dir' => $tmp]);
+        $pm = new Package(['cache_dir' => $tmp]);
         $pm->load();
 
         $this->assertSame($result, $pm->getMergedConfig());
@@ -195,7 +195,7 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadFiresEventsAndGeneratesConfig()
     {
-        $pm = new PackageManager();
+        $pm = new Package();
         $hook = new TestHook();
         $pm->hooks()->add($hook);
 
@@ -256,7 +256,7 @@ class PackageManagerTest extends \PHPUnit_Framework_TestCase
             'foo' => 'bar',
         ];
 
-        $pm = new PackageManager($config);
+        $pm = new Package($config);
 
         $result = $pm->getConfig();
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tonis\PackageManager\TestAsset\FQCN;
+namespace Tonis\Package\TestAsset\FQCN;
 
 class Module
 {

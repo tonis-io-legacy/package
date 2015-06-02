@@ -1,8 +1,8 @@
 <?php
 
-namespace Tonis\PackageManager\TestAsset\Override;
+namespace Tonis\Package\TestAsset\Override;
 
-use Tonis\PackageManager\Feature\ConfigProviderInterface;
+use Tonis\Package\Feature\ConfigProviderInterface;
 
 class Package implements ConfigProviderInterface
 {

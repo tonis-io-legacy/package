@@ -1,12 +1,12 @@
 <?php
 
-namespace Tonis\PackageManager\Hook;
+namespace Tonis\Package\Hook;
 
-use Tonis\PackageManager\PackageManager;
-use Tonis\PackageManager\TestAsset\Hook\AbstractPackageHookClass;
+use Tonis\Package\Package;
+use Tonis\Package\TestAsset\Hook\AbstractPackageHookClass;
 
 /**
- * @coversDefaultClass \Tonis\PackageManager\Hook\AbstractPackageHook
+ * @coversDefaultClass \Tonis\Package\Hook\AbstractPackageHook
  */
 class AbstractPackageHookTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,14 +16,14 @@ class AbstractPackageHookTest extends \PHPUnit_Framework_TestCase
     private $ph;
 
     /**
-     * @var PackageManager
+     * @var Package
      */
     private $pm;
 
     protected function setUp()
     {
         $this->ph = new AbstractPackageHookClass();
-        $this->pm = new PackageManager();
+        $this->pm = new Package();
     }
 
     public function testOnLoad()

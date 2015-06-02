@@ -1,6 +1,6 @@
 <?php
 
-namespace Tonis\PackageManager\Feature;
+namespace Tonis\Package\Feature;
 
 interface NamespaceProviderInterface
 {

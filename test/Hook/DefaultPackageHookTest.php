@@ -1,11 +1,11 @@
 <?php
 
-namespace Tonis\PackageManager\Hook;
+namespace Tonis\Package\Hook;
 
-use Tonis\PackageManager\PackageManager;
+use Tonis\Package\Package;
 
 /**
- * @coversDefaultClass \Tonis\PackageManager\Hook\DefaultPackageHook
+ * @coversDefaultClass \Tonis\Package\Hook\DefaultPackageHook
  */
 class DefaultPackageHookTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,14 +15,14 @@ class DefaultPackageHookTest extends \PHPUnit_Framework_TestCase
     private $dph;
 
     /**
-     * @var PackageManager
+     * @var Package
      */
     private $pm;
 
     protected function setUp()
     {
         $this->dph = new DefaultPackageHook();
-        $this->pm = new PackageManager();
+        $this->pm = new Package();
     }
 
     /**
@@ -30,16 +30,16 @@ class DefaultPackageHookTest extends \PHPUnit_Framework_TestCase
      */
     public function testOnLoadCreatesInstanceOfClassWhenNameAndPackageAreSpecified()
     {
-        $this->pm->add('fqcn', '\Tonis\PackageManager\TestAsset\FQCN\Module');
+        $this->pm->add('fqcn', '\Tonis\Package\TestAsset\FQCN\Module');
 
         $packages = $this->pm->getPackages();
         $this->assertArrayHasKey('fqcn', $packages);
-        $this->assertEquals($packages['fqcn'], '\Tonis\PackageManager\TestAsset\FQCN\Module');
+        $this->assertEquals($packages['fqcn'], '\Tonis\Package\TestAsset\FQCN\Module');
 
         $this->dph->onLoad($this->pm);
 
         $this->assertArrayHasKey('fqcn', $packages);
-        $this->assertInstanceOf('\Tonis\PackageManager\TestAsset\FQCN\Module', $packages['fqcn']);
+        $this->assertInstanceOf('\Tonis\Package\TestAsset\FQCN\Module', $packages['fqcn']);
     }
 
     /**
@@ -47,25 +47,25 @@ class DefaultPackageHookTest extends \PHPUnit_Framework_TestCase
      */
     public function testOnLoadCreatesInstanceOfPackageWhenOnlyNameIsSpecified()
     {
-        $this->pm->add('\Tonis\PackageManager\TestAsset\Application');
+        $this->pm->add('\Tonis\Package\TestAsset\Application');
 
         $packages = $this->pm->getPackages();
-        $this->assertArrayHasKey('\Tonis\PackageManager\TestAsset\Application', $packages);
-        $this->assertNull($packages['\Tonis\PackageManager\TestAsset\Application']);
+        $this->assertArrayHasKey('\Tonis\Package\TestAsset\Application', $packages);
+        $this->assertNull($packages['\Tonis\Package\TestAsset\Application']);
 
         $this->dph->onLoad($this->pm);
 
-        $this->assertArrayHasKey('\Tonis\PackageManager\TestAsset\Application', $packages);
+        $this->assertArrayHasKey('\Tonis\Package\TestAsset\Application', $packages);
         $this->assertInstanceOf(
-            '\Tonis\PackageManager\TestAsset\Application\Package',
-            $packages['\Tonis\PackageManager\TestAsset\Application']
+            '\Tonis\Package\TestAsset\Application\Package',
+            $packages['\Tonis\Package\TestAsset\Application']
         );
     }
 
     /**
      * @covers ::onLoad
-     * @covers \Tonis\PackageManager\Exception\PackageLoadFailedException
-     * @expectedException \Tonis\PackageManager\Exception\PackageLoadFailedException
+     * @covers \Tonis\Package\Exception\PackageLoadFailedException
+     * @expectedException \Tonis\Package\Exception\PackageLoadFailedException
      * @expectedExceptionMessage Package "Foo" failed to load: check your package name and composer autoloading
      */
     public function testOnLoadThrowsExpectedExceptionWhenAttemptingToLoadNonExistentException()
@@ -84,7 +84,7 @@ class DefaultPackageHookTest extends \PHPUnit_Framework_TestCase
      */
     public function testOnMergeWithNoOverridesReturnsExpectedConfig()
     {
-        $this->pm->add('\Tonis\PackageManager\TestAsset\Application');
+        $this->pm->add('\Tonis\Package\TestAsset\Application');
         $this->dph->onLoad($this->pm);
 
         $config = $this->dph->onMerge($this->pm);
@@ -95,7 +95,7 @@ class DefaultPackageHookTest extends \PHPUnit_Framework_TestCase
 
     public function testOnMergeWithOverrideConfigsReturnsExpectedConfig()
     {
-        $pm = new PackageManager([
+        $pm = new Package([
             'override_pattern' => __DIR__ . '/../TestAsset/Application/config/*.override.config.php',
         ]);
         $this->dph->onLoad($pm);

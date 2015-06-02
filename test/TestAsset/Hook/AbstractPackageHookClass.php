@@ -1,8 +1,8 @@
 <?php
 
-namespace Tonis\PackageManager\TestAsset\Hook;
+namespace Tonis\Package\TestAsset\Hook;
 
-use Tonis\PackageManager\Hook\AbstractPackageHook;
+use Tonis\Package\Hook\AbstractPackageHook;
 
 class AbstractPackageHookClass extends AbstractPackageHook
 {

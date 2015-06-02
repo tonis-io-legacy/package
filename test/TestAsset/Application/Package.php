@@ -1,8 +1,8 @@
 <?php
 
-namespace Tonis\PackageManager\TestAsset\Application;
+namespace Tonis\Package\TestAsset\Application;
 
-use Tonis\PackageManager\Feature\ConfigProviderInterface;
+use Tonis\Package\Feature\ConfigProviderInterface;
 
 class Package implements ConfigProviderInterface
 {

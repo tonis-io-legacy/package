@@ -1,6 +1,6 @@
 <?php
 
-namespace Tonis\PackageManager;
+namespace Tonis\Package;
 
 interface ManagerInterface
 {

@@ -1,28 +1,28 @@
 <?php
 
-namespace Tonis\PackageManager\Hook;
+namespace Tonis\Package\Hook;
 
 use Tonis\Hookline\HookInterface;
-use Tonis\PackageManager\PackageManager;
+use Tonis\Package\Package;
 
 interface PackageHookInterface extends HookInterface
 {
     /**
-     * @param PackageManager $packageManager
+     * @param Package $Package
      * @return void
      */
-    public function onLoad(PackageManager $packageManager);
+    public function onLoad(Package $Package);
 
     /**
-     * @param PackageManager $packageManager
+     * @param Package $Package
      * @return void
      */
-    public function onMerge(PackageManager $packageManager);
+    public function onMerge(Package $Package);
 
     /**
-     * @param PackageManager $packageManager
+     * @param Package $Package
      * @param array $mergedConfig
      * @return void
      */
-    public function afterLoad(PackageManager $packageManager, array $mergedConfig);
+    public function afterLoad(Package $Package, array $mergedConfig);
 }

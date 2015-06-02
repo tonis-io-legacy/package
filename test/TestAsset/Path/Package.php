@@ -1,8 +1,8 @@
 <?php
 
-namespace Tonis\PackageManager\TestAsset\Path;
+namespace Tonis\Package\TestAsset\Path;
 
-use Tonis\PackageManager\Feature\PathProviderInterface;
+use Tonis\Package\Feature\PathProviderInterface;
 
 class Package implements PathProviderInterface
 {

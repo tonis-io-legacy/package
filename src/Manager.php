@@ -1,14 +1,14 @@
 <?php
 
-namespace Tonis\PackageManager;
+namespace Tonis\Package;
 
 use Tonis\Hookline\Container as HookContainer;
 use Tonis\Hookline\HooksAwareInterface;
 use Tonis\Hookline\HooksAwareTrait;
-use Tonis\PackageManager\Hook\DefaultPackageHook;
-use Tonis\PackageManager\Hook\PackageHookInterface;
+use Tonis\Package\Hook\DefaultPackageHook;
+use Tonis\Package\Hook\PackageHookInterface;
 
-final class PackageManager implements HooksAwareInterface, ManagerInterface
+final class Manager implements HooksAwareInterface, ManagerInterface
 {
     use HooksAwareTrait;
 

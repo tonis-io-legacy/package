@@ -2,7 +2,7 @@
 
 <phpunit bootstrap="../vendor/autoload.php" colors="true">
     <testsuites>
-        <testsuite name="Tonis\PackageManager">
+        <testsuite name="Tonis\Package">
             <directory>.</directory>
         </testsuite>
     </testsuites>
