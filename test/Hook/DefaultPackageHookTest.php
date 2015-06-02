@@ -96,7 +96,7 @@ class DefaultPackageHookTest extends \PHPUnit_Framework_TestCase
     public function testOnMergeWithOverrideConfigsReturnsExpectedConfig()
     {
         $pm = new PackageManager([
-            'override_pattern' => APPLICATION_ROOT . '/test/TestAsset/Application/config/*.override.config.php',
+            'override_pattern' => __DIR__ . '/../TestAsset/Application/config/*.override.config.php',
         ]);
         $this->dph->onLoad($pm);
 
