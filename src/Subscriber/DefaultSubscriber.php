@@ -1,18 +1,31 @@
 <?php
 
-namespace Tonis\Package\Hook;
+namespace Tonis\Package\Subscriber;
 
+use Tonis\Event;
+use Tonis\Event\Manager;
+use Tonis\Package;
 use Tonis\Package\Exception\PackageLoadFailedException;
 use Tonis\Package\Feature\ConfigProviderInterface;
-use Tonis\Package\Manager;
 
-class DefaultPackageHook extends AbstractPackageHook
+class DefaultSubscriber implements Event\SubscriberInterface
 {
+    /**
+     * @param Manager $events
+     * @return void
+     */
+    public function subscribe(Manager $events)
+    {
+        $events->on(Package\Manager::EVENT_ON_LOAD, [$this, 'onLoad']);
+        $events->on(Package\Manager::EVENT_ON_MERGE, [$this, 'onMerge']);
+    }
+
     /**
      * {@inheritDoc}
      */
-    public function onLoad(Manager $manager)
+    public function onLoad(Package\Event $event)
     {
+        $manager = $event->getPackageManager();
         $packages = $manager->getPackages();
         foreach ($packages as $name => $package) {
             $fcqn = null;
@@ -38,8 +51,9 @@ class DefaultPackageHook extends AbstractPackageHook
     /**
      * {@inheritDoc}
      */
-    public function onMerge(Manager $manager)
+    public function onMerge(Package\Event $event)
     {
+        $manager = $event->getPackageManager();
         $config = [];
 
         foreach ($manager->getPackages() as $package) {

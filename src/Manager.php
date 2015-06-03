@@ -2,17 +2,18 @@
 
 namespace Tonis\Package;
 
-use Tonis\Hookline\Container as HookContainer;
-use Tonis\Hookline\HooksAwareInterface;
-use Tonis\Hookline\HooksAwareTrait;
-use Tonis\Package\Hook\DefaultPackageHook;
-use Tonis\Package\Hook\PackageHookInterface;
+use Tonis\Event;
+use Tonis\Package\Event as PackageEvent;
+use Tonis\Package\Subscriber\DefaultSubscriber;
 
-final class Manager implements HooksAwareInterface, ManagerInterface
+final class Manager implements ManagerInterface
 {
-    use HooksAwareTrait;
+    use Event\EventsAwareTrait;
 
     const CACHE_FILE_NAME = 'package.merged.config.php';
+
+    const EVENT_ON_LOAD = 'onLoad';
+    const EVENT_ON_MERGE = 'onMerge';
 
     /** @var array */
     private $config = [];
@@ -37,11 +38,10 @@ final class Manager implements HooksAwareInterface, ManagerInterface
      */
     public function __construct(array $config = [])
     {
-        $this->hooks = new HookContainer(PackageHookInterface::class);
         $this->packages = new \ArrayObject();
 
         $this->setConfigDefaults($config);
-        $this->installDefaultHooks();
+        $this->installSubscribers();
     }
 
     /**
@@ -121,13 +121,14 @@ final class Manager implements HooksAwareInterface, ManagerInterface
             return;
         }
 
-        $this->hooks()->run('onLoad', $this);
+        $event = new PackageEvent($this);
+        $this->events()->fire(self::EVENT_ON_LOAD, $event);
         $cacheFile = $this->getCacheFile();
         
         if ($cacheFile && file_exists($cacheFile)) {
             $this->mergedConfig = include $cacheFile;
         } else {
-            foreach ($this->hooks()->run('onMerge', $this) as $config) {
+            foreach ($this->events()->fire(self::EVENT_ON_MERGE, $event) as $config) {
                 if (empty($config)) {
                     continue;
                 }
@@ -137,7 +138,6 @@ final class Manager implements HooksAwareInterface, ManagerInterface
             $this->writeCache();
         }
 
-        $this->hooks()->run('afterLoad', $this, $this->mergedConfig);
         $this->loaded = true;
     }
 
@@ -219,15 +219,15 @@ final class Manager implements HooksAwareInterface, ManagerInterface
     {
         $this->config = array_merge($this->configDefaults, $config);
 
-        if (!isset($this->config['hooks'])) {
-            $this->config['hooks'] = [new DefaultPackageHook()];
+        if (!isset($this->config['subscribers'])) {
+            $this->config['subscribers'] = [new DefaultSubscriber()];
         }
     }
 
-    private function installDefaultHooks()
+    private function installSubscribers()
     {
-        foreach ($this->config['hooks'] as $hook) {
-            $this->hooks()->add($hook);
+        foreach ($this->config['subscribers'] as $subscriber) {
+            $this->events()->subscribe($subscriber);
         }
     }
 }
