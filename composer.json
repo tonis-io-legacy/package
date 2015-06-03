@@ -10,7 +10,7 @@
     "license": "BSD-3-Clause",
     "require": {
         "php": ">=5.5",
-        "tonis/hookline": "dev-master"
+        "tonis/event": "~1.0-dev"
     },
     "require-dev": {
         "mockery/mockery": "~0.9",
