@@ -2,28 +2,29 @@
 
 namespace Tonis\Package\Subscriber;
 
-use Tonis\Event;
-use Tonis\Event\Manager;
-use Tonis\Package;
+use Tonis\Event\EventManager;
+use Tonis\Event\SubscriberInterface;
 use Tonis\Package\Exception\PackageLoadFailedException;
 use Tonis\Package\Feature\ConfigProviderInterface;
+use Tonis\Package\PackageEvent;
+use Tonis\Package\PackageManager;
 
-class DefaultSubscriber implements Event\SubscriberInterface
+class DefaultSubscriber implements SubscriberInterface
 {
     /**
-     * @param Manager $events
+     * @param EventManager $events
      * @return void
      */
-    public function subscribe(Manager $events)
+    public function subscribe(EventManager $events)
     {
-        $events->on(Package\Manager::EVENT_ON_LOAD, [$this, 'onLoad']);
-        $events->on(Package\Manager::EVENT_ON_MERGE, [$this, 'onMerge']);
+        $events->on(PackageManager::EVENT_ON_LOAD, [$this, 'onLoad']);
+        $events->on(PackageManager::EVENT_ON_MERGE, [$this, 'onMerge']);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function onLoad(Package\Event $event)
+    public function onLoad(PackageEvent $event)
     {
         $manager = $event->getPackageManager();
         $packages = $manager->getPackages();
@@ -32,6 +33,8 @@ class DefaultSubscriber implements Event\SubscriberInterface
 
             if (is_string($package)) {
                 $fcqn = $package;
+            } elseif (class_exists($name)) {
+                $fcqn = $name;
             } elseif (empty($package)) {
                 $fcqn = $name . '\\Package';
             }
@@ -51,7 +54,7 @@ class DefaultSubscriber implements Event\SubscriberInterface
     /**
      * {@inheritDoc}
      */
-    public function onMerge(Package\Event $event)
+    public function onMerge(PackageEvent $event)
     {
         $manager = $event->getPackageManager();
         $config = [];

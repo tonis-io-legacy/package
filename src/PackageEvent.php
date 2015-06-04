@@ -3,21 +3,21 @@ namespace Tonis\Package;
 
 use Tonis\Event\Event as BaseEvent;
 
-final class Event extends BaseEvent
+final class PackageEvent extends BaseEvent
 {
-    /** @var Manager */
+    /** @var PackageManager */
     private $packageManager;
 
     /**
-     * @param Manager $manager
+     * @param PackageManager $manager
      */
-    public function __construct(Manager $manager)
+    public function __construct(PackageManager $manager)
     {
         $this->packageManager = $manager;
     }
 
     /**
-     * @return Manager
+     * @return PackageManager
      */
     public function getPackageManager()
     {

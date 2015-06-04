@@ -3,10 +3,9 @@
 namespace Tonis\Package;
 
 use Tonis\Event;
-use Tonis\Package\Event as PackageEvent;
 use Tonis\Package\Subscriber\DefaultSubscriber;
 
-final class Manager implements ManagerInterface
+final class PackageManager implements ManagerInterface
 {
     use Event\EventsAwareTrait;
 
