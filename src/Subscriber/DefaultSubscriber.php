@@ -28,26 +28,18 @@ class DefaultSubscriber implements SubscriberInterface
     {
         $manager = $event->getPackageManager();
         $packages = $manager->getPackages();
-        foreach ($packages as $name => $package) {
-            $fcqn = null;
-
-            if (is_string($package)) {
-                $fcqn = $package;
-            } elseif (class_exists($name)) {
-                $fcqn = $name;
-            } elseif (empty($package)) {
-                $fcqn = $name . '\\Package';
+        foreach ($packages as $fqcn => $package) {
+            if (null !== $package) {
+                continue;
             }
 
-            if (null !== $fcqn) {
-                $package = class_exists($fcqn) ? new $fcqn() : null;
-            }
+            $package = class_exists($fqcn) ? new $fqcn() : null;
 
             if (null === $package) {
-                throw new PackageLoadFailedException($name);
+                throw new PackageLoadFailedException($fqcn);
             }
 
-            $packages[$name] = $package;
+            $packages[$fqcn] = $package;
         }
     }
 

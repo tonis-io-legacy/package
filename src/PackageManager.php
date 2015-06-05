@@ -92,22 +92,21 @@ final class PackageManager implements ManagerInterface
     }
 
     /**
-     * @param string $name
-     * @param null|string $fqcn
+     * @param string $fqcn
      * @throws Exception\PackageExistsException
      * @throws Exception\PackagesAlreadyLoadedException
      */
-    public function add($name, $fqcn = null)
+    public function add($fqcn)
     {
         if ($this->loaded) {
             throw new Exception\PackagesAlreadyLoadedException();
         }
 
-        if ($this->packages->offsetExists($name)) {
-            throw new Exception\PackageExistsException($name);
+        if ($this->packages->offsetExists($fqcn)) {
+            throw new Exception\PackageExistsException($fqcn);
         }
 
-        $this->packages[$name] = $fqcn;
+        $this->packages[$fqcn] = null;
     }
 
     /**
