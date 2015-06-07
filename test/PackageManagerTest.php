@@ -137,7 +137,7 @@ class PackageTest extends \PHPUnit_Framework_TestCase
      * @covers ::add
      * @covers \Tonis\Package\Exception\PackageExistsException::__construct
      * @expectedException \Tonis\Package\Exception\PackageExistsException
-     * @expectedExceptionMessage Package with name "Tonis\Package\TestAsset\Application\ApplicationPackage" already exists
+     * @expectedExceptionMessage Package with name "Tonis\Package\TestAsset\Application\ApplicationPackage" already
      */
     public function testAddThrowsExceptionWhenPackageExists()
     {
