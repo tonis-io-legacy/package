@@ -29,10 +29,6 @@ class DefaultSubscriber implements SubscriberInterface
         $manager = $event->getPackageManager();
         $packages = $manager->getPackages();
         foreach ($packages as $fqcn => $package) {
-            if (null !== $package) {
-                continue;
-            }
-
             $package = class_exists($fqcn) ? new $fqcn() : null;
 
             if (null === $package) {

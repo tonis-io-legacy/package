@@ -4,7 +4,7 @@ namespace Tonis\Package\TestAsset\Path;
 
 use Tonis\Package\Feature\PathProviderInterface;
 
-class Package implements PathProviderInterface
+class PathPackage implements PathProviderInterface
 {
     /**
      * @return string

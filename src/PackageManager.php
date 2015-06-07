@@ -24,13 +24,13 @@ final class PackageManager implements ManagerInterface
     ];
 
     /** @var bool */
-    protected $loaded = false;
+    private $loaded = false;
     /** @var array */
-    protected $pathCache = [];
+    private $pathCache = [];
     /** @var array */
-    protected $mergedConfig = [];
+    private $mergedConfig = [];
     /** @var \ArrayObject */
-    protected $packages;
+    private $packages;
 
     /**
      * @param array $config

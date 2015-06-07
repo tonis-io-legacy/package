@@ -4,7 +4,7 @@ namespace Tonis\Package\TestAsset\Override;
 
 use Tonis\Package\Feature\ConfigProviderInterface;
 
-class Package implements ConfigProviderInterface
+class OverridePackage implements ConfigProviderInterface
 {
     /**
      * {@inheritDoc}

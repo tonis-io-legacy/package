@@ -4,7 +4,7 @@ namespace Tonis\Package\TestAsset\Application;
 
 use Tonis\Package\Feature\ConfigProviderInterface;
 
-class Package implements ConfigProviderInterface
+class ApplicationPackage implements ConfigProviderInterface
 {
     /**
      * {@inheritDoc}
