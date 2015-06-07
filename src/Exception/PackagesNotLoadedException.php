@@ -2,10 +2,10 @@
 
 namespace Tonis\Package\Exception;
 
-class PackagesNotLoadedException extends \RuntimeException
+final class PackagesNotLoadedException extends \RuntimeException
 {
     public function __construct()
     {
-        return parent::__construct('Packages have not been loaded');
+        parent::__construct('Packages have not been loaded');
     }
 }
