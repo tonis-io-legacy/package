@@ -179,7 +179,7 @@ final class PackageManager implements ManagerInterface
     public function writeCache()
     {
         $cacheFile = $this->getCacheFile();
-        if (null !== $cacheFile) {
+        if (null === $cacheFile) {
             return;
         }
         
