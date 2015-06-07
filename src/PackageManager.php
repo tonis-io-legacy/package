@@ -123,7 +123,7 @@ final class PackageManager implements ManagerInterface
         $this->events()->fire(self::EVENT_ON_LOAD, $event);
         $cacheFile = $this->getCacheFile();
         
-        if ($cacheFile && file_exists($cacheFile)) {
+        if (null !== $cacheFile && file_exists($cacheFile)) {
             $this->mergedConfig = include $cacheFile;
         } else {
             foreach ($this->events()->fire(self::EVENT_ON_MERGE, $event) as $config) {
@@ -179,7 +179,7 @@ final class PackageManager implements ManagerInterface
     public function writeCache()
     {
         $cacheFile = $this->getCacheFile();
-        if (!$cacheFile) {
+        if (null !== $cacheFile) {
             return;
         }
         
