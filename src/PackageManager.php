@@ -120,13 +120,13 @@ final class PackageManager implements ManagerInterface
         }
 
         $event = new PackageEvent($this);
-        $this->events()->fire(self::EVENT_ON_LOAD, $event);
+        $this->getEventManager()->fire(self::EVENT_ON_LOAD, $event);
         $cacheFile = $this->getCacheFile();
         
         if (null !== $cacheFile && file_exists($cacheFile)) {
             $this->mergedConfig = include $cacheFile;
         } else {
-            foreach ($this->events()->fire(self::EVENT_ON_MERGE, $event) as $config) {
+            foreach ($this->getEventManager()->fire(self::EVENT_ON_MERGE, $event) as $config) {
                 if (empty($config)) {
                     continue;
                 }
@@ -225,7 +225,7 @@ final class PackageManager implements ManagerInterface
     private function installSubscribers()
     {
         foreach ($this->config['subscribers'] as $subscriber) {
-            $this->events()->subscribe($subscriber);
+            $this->getEventManager()->subscribe($subscriber);
         }
     }
 }

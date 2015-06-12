@@ -230,7 +230,7 @@ class PackageTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('foo', $result);
         $this->assertEquals('bar', $result['foo']);
 
-        $events = $pm->events();
+        $events = $pm->getEventManager();
         $this->assertInstanceOf(EventManager::class, $events);
     }
 }
